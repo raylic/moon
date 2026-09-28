@@ -1,0 +1,314 @@
+/* M4 — 基础组件样式。
+   所有数值来自 pen 画布（frame：日期格状态一览 / 记录模块状态一览 / 反馈组件一览）。
+   颜色一律走 tokens.css 的 var()；只有画布上那些「带 alpha 的 tint」因为 token 里没有
+   对应项，才写成 rgba()（每处都标了画布原值）。 */
+
+/* ---------- 视图容器（三个页面共用） ---------- */
+
+.view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.view__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px 20px;
+  gap: 10px;
+}
+
+/* ---------- Header 里的「今天」胶囊 + 圆形导航键 ---------- */
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pill-btn {
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pill-btn:active,
+.icon-btn:active {
+  background: var(--today-bg);
+}
+
+/* ---------- Button ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.btn--sm {
+  height: 46px;
+  border-radius: 23px;
+  font-size: 13px;
+  padding: 0 16px;
+}
+
+.btn--md {
+  height: 48px;
+  border-radius: 24px;
+  font-size: 14px;
+  padding: 0 20px;
+}
+
+.btn--lg {
+  height: 50px;
+  border-radius: 25px;
+  font-size: 14px;
+  padding: 0 20px;
+}
+
+.btn--block {
+  flex: 1 1 0;
+  width: 100%;
+}
+
+.btn--period {
+  background: var(--period);
+  color: var(--surface);
+  font-weight: 600;
+}
+
+.btn--dark {
+  background: var(--text);
+  color: var(--surface);
+  font-weight: 600;
+}
+
+.btn--danger {
+  background: var(--danger);
+  color: var(--surface);
+  font-weight: 600;
+}
+
+.btn--soft {
+  background: var(--bg);
+  color: var(--text);
+  font-weight: 500;
+}
+
+.btn--outline {
+  background: var(--surface);
+  border-color: var(--line);
+  color: var(--text);
+  font-weight: 400;
+}
+
+.btn--sm.btn--outline,
+.btn--lg.btn--outline {
+  font-weight: 500;
+}
+
+.btn:disabled {
+  cursor: default;
+}
+
+.btn--period:disabled,
+.btn--dark:disabled,
+.btn--danger:disabled {
+  opacity: 0.45;
+}
+
+.btn--outline:disabled {
+  color: var(--text-faint);
+}
+
+/* ---------- Card ---------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+/* ---------- Toast ---------- */
+
+.toast-layer {
+  position: absolute;
+  top: 74px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.toast {
+  /* 画布：fill #2E2A2B / r12 / padding [11,18] / 12px 白字 */
+  background: var(--text);
+  color: var(--surface);
+  border-radius: 12px;
+  padding: 11px 18px;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* ---------- NoticeBar ---------- */
+
+.noticebar {
+  /* 画布：fill #E4576B14 / stroke #E4576B33 / r12 / gap 9 / padding [12,14] */
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(228, 87, 107, 0.08);
+  border: 1px solid rgba(228, 87, 107, 0.2);
+}
+
+.noticebar__icon {
+  flex: 0 0 auto;
+  color: var(--period-deep);
+}
+
+.noticebar__text {
+  flex: 1 1 auto;
+  font-size: 12px;
+  line-height: 1.35;
+  color: var(--period-deep);
+}
+
+/* ---------- ConfirmSheet ---------- */
+
+/* `fixed` 而不是 `absolute`：确认弹层必须连 TabBar 一起挡住。
+   页面滚动容器是 `.pane`，用 absolute 的话遮罩只到 pane 的边界，
+   底部导航露在遮罩外面而且仍然可点 —— 那就不是模态了。
+   真实目标（手机 PWA）上 `.phone` 就是视口，两者等价；桌面预览时遮罩会盖满窗口。 */
+.sheet-layer {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  background: rgba(46, 42, 43, 0.28);
+  z-index: 40;
+}
+
+.sheet {
+  /* 画布：310 宽 / r20 / padding 22 / gap 18 */
+  width: 100%;
+  max-width: 310px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sheet__head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sheet__title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.44;
+  color: var(--text);
+}
+
+.sheet__body {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.sheet__btns {
+  display: flex;
+  gap: 10px;
+}
+
+/* ---------- TabBar ---------- */
+
+.tabbar {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 4px;
+  height: 52px;
+  margin: 0 20px calc(20px + var(--safe-b));
+  padding: 4px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 26px;
+}
+
+.tabbar__seg {
+  flex: 1 1 0;
+  height: 44px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.tabbar__seg--on {
+  background: var(--text);
+  color: var(--surface);
+  font-weight: 600;
+}
+
+/* ---------- DayCell ---------- */
+
+.daycell {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--text);
+  background: none;
+}
+
+.daycell[data-outside] {
+  cursor: pointer;
+}

@@ -1,0 +1,166 @@
+/* M5 — 月视图 + 记录模块。数值全部来自画布 frame `月视图 — 2026年9月`。
+   容器（.view / .view__scroll / .pill-btn / .icon-btn）在 ui.css 里。 */
+
+/* ---------- Header：2026年 / 9月 两行 + 今天 + ‹ › ---------- */
+
+.m-header {
+  flex: 0 0 auto;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.m-title {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.m-year {
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--text-dim);
+}
+
+.m-month {
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text);
+}
+
+/* ---------- 日历块：星期行 28 + 6 行 × 46（行间 4） ---------- */
+
+.m-cal {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.m-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 28px;
+}
+
+.m-weekdays span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-dim);
+}
+
+.m-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 46px;
+  row-gap: 4px;
+  justify-items: center;
+}
+
+.m-spacer {
+  flex: 1 0 158px;
+}
+
+/* ---------- 记录模块（白卡 r18 / padding 16 / gap 14） ---------- */
+
+.rm {
+  flex: 0 0 auto;
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rm__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rm__state {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.rm__caption {
+  font-size: 10px;
+  line-height: 14px;
+  color: var(--text-dim);
+}
+
+.rm__state-value {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.rm__last {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  align-items: flex-end;
+  flex: 0 0 auto;
+}
+
+.rm__last-value {
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.rm__divider {
+  height: 1px;
+  background: var(--line);
+}
+
+.rm__sel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 16px;
+  gap: 8px;
+}
+
+.rm__sel-value {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16px;
+  color: var(--text);
+}
+
+.rm__sel-hint {
+  font-size: 10px;
+  line-height: 14px;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.rm__btns {
+  display: flex;
+  gap: 8px;
+}
+
+/* 76 宽 / 12px / --text-dim（栈空时 --text-faint，由 Button:disabled 给） */
+.rm__btns .rm__undo {
+  flex: 0 0 76px;
+  width: 76px;
+  padding: 0;
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.rm__btns .rm__undo:disabled {
+  color: var(--text-faint);
+  background: var(--surface);
+}

@@ -1,0 +1,50 @@
+/* M9 应用壳。视图本身不自带外框尺寸，全部由 .phone / .pane 决定。 */
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone {
+  position: relative;
+  width: 100%;
+  max-width: 390px;
+  height: 100dvh;
+  margin: 0 auto;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.phone-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+/* 三个视图各自绝对铺满，内部自己处理滚动 */
+.pane {
+  position: absolute;
+  inset: 0;
+}
+
+.pane[hidden] {
+  display: none;
+}
+
+.boot {
+  background: var(--bg);
+}
+
+/* 桌面预览：按设计稿的 390×844 画成一个居中的手机框，方便和 pen 对照 */
+@media (min-width: 520px) and (min-height: 900px) {
+  .phone {
+    height: 844px;
+    border-radius: 24px;
+    box-shadow:
+      0 10px 40px rgba(46, 42, 43, 0.1),
+      0 0 0 1px var(--line);
+  }
+}

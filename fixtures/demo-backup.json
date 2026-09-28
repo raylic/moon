@@ -1,0 +1,71 @@
+{
+  "format": "moon.period-log",
+  "version": 1,
+  "exportedAt": "2026-09-28T10:12:00+08:00",
+  "events": [
+    {
+      "date": "2026-02-16",
+      "type": "start"
+    },
+    {
+      "date": "2026-02-20",
+      "type": "end"
+    },
+    {
+      "date": "2026-03-17",
+      "type": "start"
+    },
+    {
+      "date": "2026-03-21",
+      "type": "end"
+    },
+    {
+      "date": "2026-04-13",
+      "type": "start"
+    },
+    {
+      "date": "2026-04-16",
+      "type": "end"
+    },
+    {
+      "date": "2026-05-13",
+      "type": "start"
+    },
+    {
+      "date": "2026-05-17",
+      "type": "end"
+    },
+    {
+      "date": "2026-06-10",
+      "type": "start"
+    },
+    {
+      "date": "2026-06-15",
+      "type": "end"
+    },
+    {
+      "date": "2026-07-06",
+      "type": "start"
+    },
+    {
+      "date": "2026-07-10",
+      "type": "end"
+    },
+    {
+      "date": "2026-08-06",
+      "type": "start"
+    },
+    {
+      "date": "2026-08-10",
+      "type": "end"
+    },
+    {
+      "date": "2026-09-02",
+      "type": "start"
+    },
+    {
+      "date": "2026-09-07",
+      "type": "end"
+    }
+  ]
+}

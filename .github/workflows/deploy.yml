@@ -1,0 +1,59 @@
+# 推 main → 跑测试 → 构建 → 发布到 GitHub Pages。
+#
+# 用官方 Pages Actions 而不是推 gh-pages 分支：不需要单独分支、不需要额外 token，
+# 而且产物通过 artifact 直接交给 Pages，仓库历史里不会多出一堆构建提交。
+#
+# 首次部署前需要在仓库 Settings → Pages → Source 选「GitHub Actions」。
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# GITHUB_TOKEN 的最小权限：读代码 + 写 Pages + 换取 OIDC 令牌（deploy-pages 需要）
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同时只跑一个部署，但**不取消进行中的那个** —— 部署中途被打断会留下半截站点
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # 测试挂了就不该发上线：这是一份算错就有实际后果的预测代码
+      - run: npm test
+
+      # 内含 tsc -b，所以类型错误也会在这里挡住
+      - run: npm run build
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,84 @@
+/* Moon — 设计 token。数值来自 plan §4.2，与 pen 画布变量一一对应。
+   改这里之前先改 plan。 */
+
+:root {
+  --bg: #faf8f6;
+  --surface: #ffffff;
+  --text: #2e2a2b;
+  --text-dim: #9a9193;
+  --text-faint: #c4bcbe;
+
+  --period: #e4576b;
+  --period-deep: #c63f54;
+  --fertile: #4fa3a5;
+  --fertile-deep: #2f7c7e;
+
+  --line: #efeae7;
+  --today-bg: #f3efed;
+  --danger: #c63f54;
+
+  /* 不得新增绿色 token 表示「安全」。plan Context 第 3 条。 */
+
+  --font: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+
+  /* 安全区。圆角不设 token —— 画布上每个组件是各自的具体值（18/16/20/12/24…），
+     抽成一个变量反而会和设计稿漂移。 */
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior-y: none;
+}
+
+#root {
+  height: 100%;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  font-weight: 400;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

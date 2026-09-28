@@ -1,0 +1,109 @@
+/* M8 — 空状态。数值全部来自画布 frame `空状态 — 首次进入`：
+   padding [40,32] / 垂直居中；插画 172 →30→ 标题 →12→ 说明 →34→ 主按钮 →10→ 次按钮 →24→ 两行小字。 */
+
+.empty {
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 32px;
+  background: var(--bg);
+}
+
+/* 插画是透明底的（画布没有给它任何底色块），不要加半透明底块 */
+.empty__art {
+  flex: 0 0 auto;
+  display: block;
+}
+
+.empty__title {
+  margin-top: 30px;
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 30px;
+  text-align: center;
+  color: var(--text);
+}
+
+.empty__body {
+  margin-top: 12px;
+  width: 300px;
+  max-width: 100%;
+  font-size: 13px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--text-dim);
+}
+
+.empty__import,
+.empty__start {
+  align-self: stretch;
+  margin-top: 34px;
+}
+
+.empty__start {
+  margin-top: 10px;
+}
+
+/* ── 从别的 app 迁移 ──
+   数值来自画布 frame `空状态 — 迁移入口 B`：卡片 r16 / padding 16 / gap 12，
+   行内 gap 10，按钮 96×40 r20，说明文字 11px lh1.5（宽 188 = 294 − 96 − 10）。 */
+
+.empty__migrate {
+  align-self: stretch;
+  margin-top: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.empty__migrate-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-dim);
+}
+
+.empty__step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.empty__step-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+
+.empty__step-btn {
+  flex: 0 0 auto;
+  width: 96px;
+  height: 40px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.empty__privacy {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.empty__privacy span {
+  font-size: 10px;
+  line-height: 14px;
+  text-align: center;
+  color: var(--text-faint);
+}

@@ -1,0 +1,137 @@
+/* M6 — 年视图。数值全部来自画布 frame `年视图 — 2026年`。
+   容器（.view / .view__scroll / .controls / .pill-btn / .icon-btn）在 ui.css 里。 */
+
+/* Header 与图例之间没有间距（画布：Header 18–74，Legend 74–88） */
+.year .view__scroll {
+  gap: 0;
+}
+
+.y-header {
+  flex: 0 0 auto;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.y-title {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.y-eyebrow {
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--text-dim);
+}
+
+.y-year {
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--text);
+}
+
+/* ---------- 图例：色块 7×7 r2 + 10px 文案，项间 14 ---------- */
+
+.y-legend {
+  flex: 0 0 auto;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.y-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  line-height: 14px;
+  color: var(--text-dim);
+}
+
+.y-legend__sw {
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+
+.y-legend__sw--period {
+  background: var(--period);
+}
+
+/* 画布图例原值 #E4576B73 */
+.y-legend__sw--predict {
+  background: rgba(228, 87, 107, 0.45);
+}
+
+/* 画布图例原值 #4FA3A540 */
+.y-legend__sw--fertile {
+  background: rgba(79, 163, 165, 0.25);
+}
+
+/* ---------- 12 个迷你月历：3 列 × 4 行，行列间距 8 ---------- */
+
+.y-grid {
+  flex: 0 0 auto;
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.ym {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.ym__label {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 16px;
+  color: var(--text);
+}
+
+.ym__wd {
+  display: grid;
+  grid-template-columns: repeat(7, 15px);
+  column-gap: 1px;
+  height: 12px;
+}
+
+.ym__wd span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8px;
+  line-height: 12px;
+  color: var(--text-faint);
+}
+
+.ym__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 15px);
+  column-gap: 1px;
+  grid-auto-rows: 17px;
+  row-gap: 3px;
+}
+
+.ym__cell {
+  width: 15px;
+  height: 17px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.y-spacer {
+  flex: 1 0 44px;
+}
