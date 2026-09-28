@@ -6,6 +6,9 @@ dist/
 # 本地草稿：画布导出、临时截图等验收件
 .design-review/
 
+# tsc -b 的增量缓存
+*.tsbuildinfo
+
 # 编辑器与系统
 .DS_Store
 *.local
