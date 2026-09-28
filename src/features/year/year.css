@@ -75,11 +75,20 @@
 
 /* ---------- 12 个迷你月历：3 列 × 4 行，行列间距 8 ---------- */
 
+/* 3 列必须**能收缩**。
+   下面 .ym__wd / .ym__grid 原来是 `repeat(7, 15px)`（硬尺寸），于是每个迷你月历的
+   min-content 宽度被钉死在 7×15+6×1 = 111px；`1fr` 等价于 `minmax(auto, 1fr)`，
+   那个 auto 下限不允许再窄，3 列就需要 3×111+16 = 349px。
+   而 .view__scroll 左右各 20px padding，所以视口窄于 349+40 = 389px 时整块就溢出：
+   往右溢出、又被 .phone 的 overflow:hidden 裁掉 —— 第三列（周六整列）直接看不见。
+   389px 这条线以上才正常，等于 iPhone SE/mini(375)、绝大多数安卓(360) 都是坏的。
+   改成 minmax(0, 1fr) 明确允许收窄，配合下面两层 7 列的 1fr，整个年历随宽度缩放。
+   390px 设计宽度下无变化：轨道 (350−16)/3 = 111.33，格子 (111.33−6)/7 ≈ 15.05px。 */
 .y-grid {
   flex: 0 0 auto;
   margin-top: 12px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -96,9 +105,10 @@
   color: var(--text);
 }
 
+/* 1fr 而不是 15px：让格子跟着可用宽度走（见 .y-grid 上方注释） */
 .ym__wd {
   display: grid;
-  grid-template-columns: repeat(7, 15px);
+  grid-template-columns: repeat(7, 1fr);
   column-gap: 1px;
   height: 12px;
 }
@@ -114,14 +124,16 @@
 
 .ym__grid {
   display: grid;
-  grid-template-columns: repeat(7, 15px);
+  grid-template-columns: repeat(7, 1fr);
   column-gap: 1px;
   grid-auto-rows: 17px;
   row-gap: 3px;
 }
 
 .ym__cell {
-  width: 15px;
+  /* 宽度交给轨道（原来固定 15px）；高度保持 17px —— 行高不是这次的问题，
+     钉住它可以让「4 行迷你月历塞进一屏」这件事不受影响。 */
+  width: auto;
   height: 17px;
   border-radius: 3px;
   display: flex;
@@ -130,6 +142,16 @@
   font-size: 10px;
   line-height: 1;
   font-weight: 400;
+}
+
+/* 窄到 339px 以下时，两位数（10px 字号下约 12.6px 宽）会撑破 1fr 轨道，
+   每个迷你月历再溢出 6px 左右 —— 又是右侧被裁。
+   （360/375 这两种真实机型不受影响：轨道给到 13.6/14.3px，够用。）
+   幅度很小，缩 1px 字号就够，不必动布局。 */
+@media (max-width: 344px) {
+  .ym__cell {
+    font-size: 9px;
+  }
 }
 
 .y-spacer {

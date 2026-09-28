@@ -370,3 +370,34 @@ CI 里**先跑 `npm test` 再 build**：这是一份算错就有实际后果的�
 用来钉死「每个预测值都和手算一致」，删测试数据不能顺手把它删掉。
 （`fixtures/` 本来也不会进生产包：`devSeed.ts` 是靠 `import.meta.env.DEV` 静态剔除的，
 实测 grep 生产 bundle 里没有 fixture 数据；现在连代码都没了。）
+
+## D48 ⚠️ 年视图在窄屏上不是「没居中」，是**第三列被裁掉**（390px 以下全坏）
+
+症状看着像居中问题，实际是溢出后被裁：`.phone { overflow: hidden }`，
+所以溢出**不产生滚动条，直接消失**。
+
+算术：`.ym__wd` / `.ym__grid` 写的是 `repeat(7, 15px)` → 每个迷你月历的 min-content
+被钉死在 `7×15+6×1 = 111px`。而 `.y-grid` 的 `1fr` 等价 `minmax(auto, 1fr)`，
+**那个 auto 下限不允许收缩**，于是 3 列硬吃 `3×111+16 = 349px`。
+`.view__scroll` 左右各 20px padding，所以视口窄于 `349+40 = 389px` 就溢出。
+
+即：**iPhone SE / 13 mini(375)、绝大多数安卓(360) 都是坏的**，只有 ≥389px 的机型看着正常。
+实测 360px 下 `grid.scrollWidth = 349`、容器只有 320 → 右溢 29px，周六那一整列（含「六」标签）消失。
+
+修法（`year.css`）：
+1. `.y-grid` → `repeat(3, minmax(0, 1fr))`，明确允许压缩
+2. `.ym__wd` / `.ym__grid` → `repeat(7, 1fr)`
+3. `.ym__cell` 去掉固定的 `width: 15px`（**高度 17px 保留** —— 行高不是这次的问题，
+   钉住它「4 行塞进一屏」不受影响）
+
+390px 设计宽度下等于没变：轨道 `(350−16)/3 = 111.33`，格子 `(111.33−6)/7 ≈ 15.05px`（原设计 15px）。
+
+补一条：339px 以下两位数（10px 字号约需 12.6px/格）会撑破轨道，每格再溢 6px。
+`@media (max-width: 344px)` 把 `.ym__cell` 缩到 9px 就够，不动布局。
+360/375 机型不需要这条（轨道给到 13.6 / 14.3px）。
+
+**验证方式**（因为空状态门挡住了年视图，无头浏览器又点不了 tab）：
+临时写了个 harness（真 `YearView` + 真 CSS + fixture 真数据），已删除。
+截图用 CDP 而不是 `--screenshot --virtual-time-budget` —— **虚拟时间会跑在 IndexedDB
+的异步之前，截到空页面**；改成轮询 `.ym` 数量到 12 再截，并顺带量 `grid.scrollWidth`。
+`scrollWidth == 容器宽` 是结构性证据，不是「看着还行」。
